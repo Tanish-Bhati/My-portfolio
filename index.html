@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanish Bhati - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Upgraded Nav Link Styles */
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4f46e5; /* Indigo 600 */
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .nav-link.active {
+            color: #4338ca; /* Indigo 700 */
+            font-weight: 500;
+        }
+        .nav-link.active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Scroll Animation Styles */
+        .scroll-animate {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-animate.fade-in {
+            /* No transform needed, just fade */
+        }
+        .scroll-animate.fade-in-up {
+            transform: translateY(30px);
+        }
+        .scroll-animate.fade-in-left {
+            transform: translateX(-30px);
+        }
+        .scroll-animate.fade-in-right {
+            transform: translateX(30px);
+        }
+
+        /* Final state for animated elements when they become visible */
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+        
+        /* Hero Section Animation Styles */
+        .hero-animate {
+            opacity: 0;
+            transition-property: opacity, transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 700ms;
+        }
+        .hero-animate-popup {
+            transform: scale(0.95);
+        }
+        .hero-animate-slide-down {
+            transform: translateY(-20px);
+        }
+        .hero-animate-slide-up {
+            transform: translateY(20px);
+        }
+
+        /* Final state class added by JS */
+        .hero-animate.loaded {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 transition-colors duration-300">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#home" class="text-2xl font-bold">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Tanish Bhati</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="#about" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors">About</a>
+                    <a href="#education" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors">Education</a>
+                    <a href="#projects" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors">Projects</a>
+                    <a href="#contact" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors">Contact</a>
+                    <a href="resume.pdf" download="TanishBhati-Resume.pdf" class="text-sm font-medium bg-slate-100 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">
+                        Download Resume
+                    </a>
+                </nav>
+                 <button id="mobile-menu-button" class="md:hidden text-slate-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+         <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-3">
+            <a href="#home" class="block py-2 text-slate-600 hover:text-indigo-600">Home</a>
+            <a href="#about" class="block py-2 text-slate-600 hover:text-indigo-600">About</a>
+            <a href="#education" class="block py-2 text-slate-600 hover:text-indigo-600">Education</a>
+            <a href="#projects" class="block py-2 text-slate-600 hover:text-indigo-600">Projects</a>
+            <a href="#contact" class="block py-2 text-slate-600 hover:text-indigo-600">Contact</a>
+             <a href="resume.pdf" download="TanishBhati-Resume.pdf" class="block text-center w-full font-medium bg-slate-100 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">
+                Download Resume
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen relative flex items-center overflow-hidden bg-white">
+            <!-- Background Gradient Blob -->
+            <div class="hidden md:block absolute top-1/2 left-1/2 w-[60rem] h-[60rem] -translate-x-1/4 -translate-y-1/2 bg-gradient-to-tr from-purple-100 via-indigo-50 to-white rounded-full opacity-60 blur-3xl pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <!-- Left Column (Text Content) -->
+                    <div class="text-center md:text-left">
+                        <div class="inline-flex items-center bg-purple-100 text-purple-800 text-sm font-semibold px-4 py-1 rounded-full mb-4 shadow-sm hero-animate hero-animate-slide-down">
+                            <span class="mr-2 text-lg">👋</span> Hello, I'm Tanish Bhati
+                        </div>
+
+                        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 leading-tight hero-animate hero-animate-slide-up" style="transition-delay: 150ms;">
+                            Full-Stack<br>
+                            <span id="typewriter" class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600"></span>
+                        </h1>
+
+                        <p class="mt-6 text-lg text-slate-600 max-w-lg mx-auto md:mx-0 hero-animate hero-animate-slide-up" style="transition-delay: 300ms;">
+                            I'm passionate about crafting digital experiences that combine elegant design with powerful functionality. Ready to build something amazing.
+                        </p>
+
+                        <div class="mt-8 flex justify-center md:justify-start flex-wrap gap-4">
+                            <a href="#projects" class="inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform transform hero-animate hero-animate-popup" style="transition-delay: 450ms;">
+                                View My Work
+                            </a>
+                            <a href="resume.pdf" download="TanishBhati-Resume.pdf" class="inline-flex items-center gap-2 bg-white text-slate-700 font-semibold px-6 py-3 rounded-lg border border-slate-300 shadow-sm hover:bg-slate-100 hover:scale-105 transition-transform transform hero-animate hero-animate-popup" style="transition-delay: 600ms;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Download CV
+                            </a>
+                        </div>
+                        
+                        <div class="mt-10 flex justify-center md:justify-start space-x-4 hero-animate hero-animate-slide-up" style="transition-delay: 750ms;">
+                            <a href="https://github.com/Tanish-Bhati" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-slate-100 rounded-full text-slate-600 hover:bg-indigo-100 hover:text-indigo-600 transition-all">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.019c0 4.438 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.019C22 6.477 17.523 2 12 2z" clip-rule="evenodd" /></svg>
+                            </a>
+                            <a href="https://www.linkedin.com/in/tanish-bhati99" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-slate-100 rounded-full text-slate-600 hover:bg-indigo-100 hover:text-indigo-600 transition-all">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                            </a>
+                             <a href="mailto:tanishhx99@gmail.com" class="w-12 h-12 flex items-center justify-center bg-slate-100 rounded-full text-slate-600 hover:bg-indigo-100 hover:text-indigo-600 transition-all">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Right Column (Image) -->
+                    <div class="hidden md:flex justify-center items-center hero-animate hero-animate-popup" style="transition-delay: 300ms;">
+                        <div class="relative w-max">
+                            <div class="absolute inset-0 p-1.5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 transform -rotate-45"></div>
+                             <img src="me.png" alt="Profile Picture" class="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full object-cover border-8 border-white shadow-2xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Scroll Down Arrow -->
+            <a href="#about" class="absolute bottom-10 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center animate-bounce hover:bg-indigo-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 scroll-animate fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">About Me</h2>
+                    <p class="mt-4 text-slate-600">Here's a little bit about my background and the technologies I work with.</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                    <div class="md:w-1/3 scroll-animate fade-in-left">
+                        <img src="mine.png" alt="About Me Portrait" class="rounded-lg shadow-2xl w-full">
+                    </div>
+                    <div class="md:w-2/3 scroll-animate fade-in-right" style="transition-delay: 150ms;">
+                        <p class="text-slate-700 mb-6 text-lg">
+                            Hello! I'm Tanish, a dedicated full-stack developer with a passion for building beautiful and intuitive user interfaces. I thrive on solving complex problems and turning innovative ideas into reality on the web. My journey into development began with a deep curiosity, and it has since evolved into a core part of who I am.
+                        </p>
+                        <p class="text-slate-700 mb-8 text-lg">
+                            When I'm not coding, you can usually find me immersed in music or enjoying a game of sports. I believe in the power of continuous learning and am always eager to embrace new challenges that help me grow both personally and professionally.
+                        </p>
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4">My Skills</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-center">
+                            <!-- HTML -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                                <svg class="w-10 h-10 text-orange-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622-13.214-.003.627 7.007h8.974l-.38 4.223-2.582.723-2.583-.722-.164-1.833h-2.61l.42 4.625L12 19.35l6.031-1.652.838-9.352H8.531z"/></svg>
+                                <span class="font-medium text-slate-700">HTML</span>
+                            </div>
+                             <!-- CSS -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                                <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622-13.214-.003.627 7.007h8.974l-.38 4.223-2.582.723-2.583-.722-.164-1.833h-2.61l.42 4.625L12 19.35l6.031-1.652.838-9.352H8.531z"/></svg>
+                                <span class="font-medium text-slate-700">CSS</span>
+                            </div>
+                             <!-- JavaScript -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                               <svg class="w-10 h-10" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h256v256H0V0Z" fill="#F7DF1E"/><path d="M121.13 189.28c2.4 3.98 5.46 6.9 9.18 8.77 3.72 1.86 7.9 2.79 12.54 2.79 5.33 0 9.84-.94 13.52-2.82 3.68-1.88 6.3-4.63 7.86-8.25s2.34-7.9 2.34-12.84c0-4.63-.5-8.74-1.5-12.32-1-3.58-2.54-6.8-4.6-9.66-2.07-2.85-4.6-5.3-7.6-7.32-3-2.02-6.25-3.6-9.75-4.73l-4.5-1.5c-3.1-.94-5.85-2.06-8.25-3.36-2.4-1.3-4.28-2.8-5.64-4.5s-2.04-3.6-2.04-5.7c0-2.58.9-4.7 2.7-6.36 1.8-1.65 4.2-2.48 7.2-2.48 2.22 0 4.24.42 6.06 1.26 1.82.84 3.3 2.02 4.44 3.54s1.9 3.2 2.3 5.04l15.8-5.85c-1.8-4.4-4.3-8-7.5-10.8-3.2-2.8-7.1-4.9-11.7-6.3-4.6-1.4-9.6-2.1-15-2.1-5.18 0-9.8.8-13.86 2.4-4.06 1.6-7.3 3.9-9.72 6.9-2.4 3-4.04 6.4-4.9 10.2s-1.3 7.7-1.3 11.7c0 4.5.55 8.5 1.65 12s2.7 6.5 4.8 9c2.1 2.5 4.6 4.6 7.5 6.2s5.8 2.8 8.7 3.6c1.3.3 2.4.6 3.3.9l.9.3c3.4.9 6.4 2 9 3.3s4.6 2.8 6 4.5c1.4 1.7 2.1 3.7 2.1 6 0 2.8-.87 5.1-2.6 6.9-1.74 1.8-4.14 2.7-7.2 2.7-2.7 0-5.1-.4-7.2-1.2s-3.7-2-4.8-3.6-1.8-3.4-2.1-5.4l-16.2 5.25c2.1 5.9 5.5 10.6 10.2 14.1 4.7 3.5 10.3 5.3 16.8 5.3 5.7 0 10.7-.8 15-2.4s7.9-3.9 10.8-6.9c2.9-3 5-6.6 6.3-10.8 1.3-4.2 2-8.8 2-13.8 0-4.6-.5-8.8-1.5-12.6-1-3.8-2.5-7-4.5-9.6-2-2.6-4.5-4.9-7.5-6.7s-6-3-9-3.6c-2 .6-4 1.2-6 1.8l-3 1.2c-1.2.6-2.4 1.2-3.6 1.8-1.2.6-2.4 1.2-3.6 1.8H121.13Zm-48.47-52.92h17.55v73.5h27.3v16.2H72.66v-89.7Z"/></svg>
+                                <span class="font-medium text-slate-700">JavaScript</span>
+                            </div>
+                             <!-- Node.js -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                               <svg class="w-10 h-10 text-green-500" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M128 0C57.308 0 0 57.308 0 128s57.308 128 128 128 128-57.308 128-128S198.692 0 128 0Zm-13.633 219.82l-68.39-118.444h68.04l-31.02 53.729 31.37 54.347v.348h.02Zm13.284-182.592c-1.861 0-3.523.3-4.937.82-1.414.52-2.65 1.26-3.676 2.205-1.026.945-1.848 2.088-2.438 3.39-2.222 5.056-2.222 10.23 0 15.286 1.11 2.528 2.768 4.606 4.904 6.175 2.136 1.569 4.606 2.58 7.272 2.96V37.228Zm13.632 182.592l68.39-118.444H128.28l31.02 53.729-31.37 54.347v.348h-.02Z" fill="#68a063"/></svg>
+                                <span class="font-medium text-slate-700">Node.js</span>
+                            </div>
+                            <!-- Tailwind CSS -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                                <svg class="w-10 h-10 text-teal-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-4.5-8c0-2.481 2.019-4.5 4.5-4.5s4.5 2.019 4.5 4.5-2.019 4.5-4.5 4.5S7.5 14.481 7.5 12zM12 9c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/></svg>
+                                <span class="font-medium text-slate-700">Tailwind CSS</span>
+                            </div>
+                             <!-- Git & Github -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                                <svg class="w-10 h-10 text-slate-800" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.019c0 4.438 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.019C22 6.477 17.523 2 12 2z" clip-rule="evenodd"></path></svg>
+                                <span class="font-medium text-slate-700">Git & GitHub</span>
+                            </div>
+                            <!-- SQL -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                                <svg class="w-10 h-10 text-cyan-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75"></path>
+                                </svg>
+                                <span class="font-medium text-slate-700">SQL</span>
+                            </div>
+                            <!-- MongoDB -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105 hover:shadow-xl">
+                                <svg class="w-10 h-10 text-green-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.17,4.44C15.22,5.09 15.4,7.09 15.4,10.27C15.4,13.46 15.22,15.47 12.1,15.47C8.91,15.47 6.7,13.54 6.7,10.35C6.7,7.11 8.91,5.09 12.1,5.09M16.17,4.44L16.21,4.05C15.43,3.78 14.2,3.56 12.1,3.56C7.6,3.56 5,6.15 5,10.35C5,14.54 7.6,17 12.1,17C14.2,17 15.43,16.78 16.21,16.5L16.17,16.11C15.39,16.39 14.16,16.56 12.1,16.56C8.38,16.56 5.81,14.27 5.81,10.35C5.81,6.42 8.42,4 12.1,4C14.2,4 15.39,4.16 16.17,4.44Z"></path>
+                                </svg>
+                                <span class="font-medium text-slate-700">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 scroll-animate fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Education</h2>
+                    <p class="mt-4 text-slate-600">My academic journey and qualifications.</p>
+                </div>
+                <div class="relative max-w-3xl mx-auto">
+                    <!-- Vertical Line -->
+                    <div class="absolute left-3 md:left-1/2 w-0.5 h-full bg-slate-300 transform md:-translate-x-1/2"></div>
+                    
+                    <!-- Timeline Items -->
+                    <div class="space-y-12">
+                        <!-- Item 1: B.Tech -->
+                        <div class="relative flex items-center md:justify-normal md:odd:flex-row-reverse scroll-animate fade-in-up">
+                            <!-- Dot -->
+                            <div class="flex md:hidden absolute left-3 top-1/2 -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-indigo-600 rounded-full border-4 border-white"></div>
+                            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-indigo-600 rounded-full border-4 border-white"></div>
+                            <!-- Content -->
+                            <div class="w-full md:w-1/2 pl-10 md:pl-0 md:pr-8 md:text-right">
+                                <div class="bg-slate-50 p-6 rounded-lg shadow-lg">
+                                    <p class="text-indigo-600 font-semibold text-sm">2023 - 2027</p>
+                                    <h3 class="text-xl font-bold text-slate-800 mt-1">B.Tech in Information Technology</h3>
+                                    <p class="text-slate-600 mt-1">Noida Institute of Engineering and Technology</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2: 12th -->
+                        <div class="relative flex items-center md:justify-normal md:odd:flex-row-reverse scroll-animate fade-in-up" style="transition-delay: 150ms;">
+                            <!-- Dot -->
+                            <div class="flex md:hidden absolute left-3 top-1/2 -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-indigo-600 rounded-full border-4 border-white"></div>
+                            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-indigo-600 rounded-full border-4 border-white"></div>
+                            <!-- Content -->
+                            <div class="w-full md:w-1/2 pl-10 md:pl-8">
+                                 <div class="bg-slate-50 p-6 rounded-lg shadow-lg">
+                                    <p class="text-indigo-600 font-semibold text-sm">2021 - 2023</p>
+                                    <h3 class="text-xl font-bold text-slate-800 mt-1">12th Class</h3>
+                                    <p class="text-slate-600 mt-1">Divine Educational Institute</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 3: 10th -->
+                        <div class="relative flex items-center md:justify-normal md:odd:flex-row-reverse scroll-animate fade-in-up" style="transition-delay: 300ms;">
+                            <!-- Dot -->
+                            <div class="flex md:hidden absolute left-3 top-1/2 -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-indigo-600 rounded-full border-4 border-white"></div>
+                            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-indigo-600 rounded-full border-4 border-white"></div>
+                            <!-- Content -->
+                            <div class="w-full md:w-1/2 pl-10 md:pl-0 md:pr-8 md:text-right">
+                                <div class="bg-slate-50 p-6 rounded-lg shadow-lg">
+                                    <p class="text-indigo-600 font-semibold text-sm">Completed in 2021</p>
+                                    <h3 class="text-xl font-bold text-slate-800 mt-1">10th Class</h3>
+                                    <p class="text-slate-600 mt-1">Divine Educational Institute</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 scroll-animate fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">My Featured Projects </h2>
+                    <p class="mt-4 text-slate-600">Here are some of the projects I'm proud to have worked on.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 scroll-animate fade-in-up">
+                        <img src="https://img.freepik.com/premium-photo/technology-illustration-hd-8k-wallpaper-stock-photographic-image_915071-29456.jpg" alt="Project 1" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-slate-800">E-commerce Platform</h3>
+                            <p class="text-slate-600 mb-4">A fully-featured e-commerce site built with React, Node.js, and Stripe for payments.</p>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium transition-colors">View Project &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 scroll-animate fade-in-up" style="animation-delay: 0.2s; transition-delay: 150ms;">
+                        <img src="https://tse4.mm.bing.net/th/id/OIP.5Cblq_nNpCH5tCW4Mm4MbAHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Project 2" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-slate-800">Task Management App</h3>
+                            <p class="text-slate-600 mb-4">A simple and intuitive task manager with drag-and-drop functionality using React Beautiful DND.</p>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium transition-colors">View Project &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 scroll-animate fade-in-up" style="animation-delay: 0.4s; transition-delay: 300ms;">
+                        <img src="https://as2.ftcdn.net/v2/jpg/08/05/22/93/1000_F_805229331_IZQQFBrYHnWkUXFSaKRPR9LOz9CiZv21.jpg" alt="Project 3" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-slate-800">Portfolio Website Template</h3>
+                            <p class="text-slate-600 mb-4">A responsive and customizable portfolio template built with HTML, CSS, and vanilla JavaScript.</p>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium transition-colors">View Project &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                    <!-- Left Column: Form -->
+                    <div class="lg:col-span-3 scroll-animate fade-in-left">
+                        <div class="flex items-center gap-4 mb-8">
+                            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <h2 class="text-3xl font-bold text-slate-900">Send a Message</h2>
+                        </div>
+                        <form action="#" method="POST" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Name *</label>
+                                    <input type="text" name="name" id="name" required placeholder="Your name" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email *</label>
+                                    <input type="email" name="email" id="email" required placeholder="your@email.com" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-slate-700 mb-1">Subject *</label>
+                                <input type="text" name="subject" id="subject" required placeholder="Project inquiry" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-slate-700 mb-1">Message *</label>
+                                <textarea name="message" id="message" rows="5" required placeholder="Tell me about your project..." class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform transform">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Info & CTA -->
+                    <div class="lg:col-span-2 space-y-8 scroll-animate fade-in-right" style="transition-delay: 150ms;">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <h3 class="text-2xl font-bold text-slate-900 mb-6">Get in Touch</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 text-purple-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Email</p>
+                                        <a href="mailto:tanishhx99@gmail.com" class="text-slate-600 hover:text-indigo-600">tanishhx99@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 text-purple-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Phone</p>
+                                        <p class="text-slate-600">+91 9758145806</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 text-purple-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Location</p>
+                                        <p class="text-slate-600">Bulandshahr, UP, India</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-8 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center shadow-2xl">
+                            <h3 class="text-2xl font-bold">Ready to Start?</h3>
+                            <p class="mt-2">Let's discuss your project and bring your vision to life with modern web technologies.</p>
+                            <a href="mailto:tanishhx99@gmail.com" class="mt-6 inline-block bg-white text-indigo-600 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-slate-100 transition-transform transform hover:scale-105">
+                                Hire Me
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 Tanish Bhati. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Add Intersection Observer for fade-in animations
+        const animatedElements = document.querySelectorAll('.scroll-animate');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+        });
+
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Active Nav Link Highlighter Logic
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('header nav a');
+        const mobileNavLinks = document.querySelectorAll('#mobile-menu a');
+        const allNavLinks = [...navLinks, ...mobileNavLinks];
+
+        // Close mobile menu automatically when a link is clicked
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(!link.hasAttribute('download')) { // Don't close for resume download
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        const navHighlighter = () => {
+            // Get current scroll position
+            const scrollY = window.scrollY;
+
+            // Find the current section by checking which section's top is passed
+            let currentSectionId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 80; // 80 is roughly header height
+                if (scrollY >= sectionTop) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            // Now update the 'active' class on all nav links
+            allNavLinks.forEach(link => {
+                 // Check if it's a section link before modifying
+                if (link.getAttribute('href').startsWith('#')) {
+                    const linkId = link.getAttribute('href').substring(1);
+                    if (linkId === currentSectionId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                }
+            });
+        };
+
+        window.addEventListener('scroll', navHighlighter);
+        
+        // Run on load to set the initial state correctly
+        document.addEventListener('DOMContentLoaded', () => {
+            navHighlighter();
+
+            // Trigger Hero Animations
+            const heroElements = document.querySelectorAll('.hero-animate');
+            // Use a timeout to ensure the transition is visible
+            setTimeout(() => {
+                 heroElements.forEach(el => {
+                    el.classList.add('loaded');
+                });
+            }, 100);
+
+            // Typewriter effect logic
+            const typewriterElement = document.getElementById('typewriter');
+            const wordsToType = ["Developer", "Designer", "Creator"];
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingSpeed = 150;
+            const deletingSpeed = 100;
+            const delayBetweenWords = 2000;
+
+            function type() {
+                const currentWord = wordsToType[wordIndex];
+                let displayText = '';
+
+                if (isDeleting) {
+                    // Deleting text
+                    displayText = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    // Typing text
+                    displayText = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                typewriterElement.textContent = displayText;
+                let typeDelay = isDeleting ? deletingSpeed : typingSpeed;
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    // Pause after typing a word
+                    typeDelay = delayBetweenWords;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    // Move to the next word after deleting
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % wordsToType.length;
+                    typeDelay = typingSpeed;
+                }
+
+                setTimeout(type, typeDelay);
+            }
+
+            // Start the typing animation after the initial hero animations have had a chance to run
+            setTimeout(type, 1200);
+        });
+
+    </script>
+</body>
+</html>
+
+
